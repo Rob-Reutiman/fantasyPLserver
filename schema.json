@@ -1,0 +1,32 @@
+
+{
+
+  "players": [
+    {
+      "name": "",
+      "team": "",
+      "position": "",
+      "totalPoints": "",
+      "currentPoints": ""
+    }
+  ],
+
+  "teams": [
+    {
+      "id": "",
+      "name": "",
+      "standing": "",
+      "recentForm": ""
+    }
+  ],
+
+  "fixtures": [
+    [
+      {
+        "home": "",
+        "away": "",
+        "result": ""
+      }
+    ]
+  ]
+}
