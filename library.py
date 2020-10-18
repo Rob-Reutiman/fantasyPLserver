@@ -1,4 +1,3 @@
-import pprint
 import requests
 
 class _fpl_database:
@@ -9,6 +8,7 @@ class _fpl_database:
     self.fixtures = []
 
   def loadTemplate(self):
+    ''' Load basic player, team, fixture data '''
 
     rGeneral = requests.get("https://fantasy.premierleague.com/api/bootstrap-static/")
     rFixtures = requests.get("https://fantasy.premierleague.com/api/fixtures/")
@@ -49,6 +49,7 @@ class _fpl_database:
       )
 
   def updateStats(self):
+    ''' Update player, team, fixture data '''
     pass
 
 if __name__ == "__main__":
