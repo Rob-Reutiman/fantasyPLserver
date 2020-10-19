@@ -9,10 +9,12 @@ def start_service():
 
     fplController = Controller(fplDB=fplDB) 
 
-    dispatcher.connect('get all data', '/', controller=fplController, action = 'GET_ALL', conditions=dict(method=['GET']))
-    dispatcher.connect('get player data', '/players/', controller=fplController, action = 'GET_PLAYERS', conditions=dict(method=['GET']))
-    dispatcher.connect('get team data', '/teams/', controller=fplController, action = 'GET_TEAMS', conditions=dict(method=['GET']))
-    dispatcher.connect('get fixture data', '/fixtures/', controller=fplController, action = 'GET_FIXTURES', conditions=dict(method=['GET']))
+    dispatcher.connect('get all data', '/', controller=fplController, action = 'GET_ALL', conditions=dict(method=['POST']))
+    dispatcher.connect('get player data', '/players/', controller=fplController, action = 'GET_PLAYERS', conditions=dict(method=['POST']))
+    dispatcher.connect('get team data', '/teams/', controller=fplController, action = 'GET_TEAMS', conditions=dict(method=['POST']))
+    dispatcher.connect('get fixture data', '/fixtures/', controller=fplController, action = 'GET_FIXTURES', conditions=dict(method=['POST']))
+    dispatcher.connect('create account', '/create/', controller=fplController, action = 'CREATE_ACCOUNT', conditions=dict(method=['POST']))
+    dispatcher.connect('login', '/auth/', controller=fplController, action = 'AUTHENTICATE', conditions=dict(method=['POST']))
 
 
     conf = {
