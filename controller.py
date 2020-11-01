@@ -53,7 +53,6 @@ class Controller(object):
 
     return json.dumps(response)
 
-
   def GET_FEATURED(self):
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
@@ -70,28 +69,28 @@ class Controller(object):
 
     for player in self.fplDB.players:
       # if forward
-      if player["position"] == 4:
+      if player["position"] == '4':
         computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_fwd["computedRanking"]:
           featured_fwd = player
           featured_fwd["computedRanking"] = computedRanking
 
       # if midfielder
-      if player["position"] == 3:
+      if player["position"] == '3':
         computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_mid["computedRanking"]:
           featured_mid = player
           featured_mid["computedRanking"] = computedRanking
  
       # if defender
-      if player["position"] == 2:
+      if player["position"] == '2':
         computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_def["computedRanking"]:
           featured_def = player
           featured_def["computedRanking"] = computedRanking
 
       # if goalie
-      if player["position"] == 1:
+      if player["position"] == '1':
         computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_fwd["computedRanking"]:
           featured_gkp = player
@@ -107,8 +106,6 @@ class Controller(object):
 
     return json.dumps(response)
 
-    
-  
   def GET_TEAMS(self): 
 
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
