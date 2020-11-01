@@ -15,6 +15,7 @@ def start_service():
     dispatcher.connect('get fixture data', '/fixtures/', controller=fplController, action = 'GET_FIXTURES', conditions=dict(method=['POST']))
     dispatcher.connect('create account', '/create/', controller=fplController, action = 'CREATE_ACCOUNT', conditions=dict(method=['POST']))
     dispatcher.connect('login', '/auth/', controller=fplController, action = 'AUTHENTICATE', conditions=dict(method=['POST']))
+    dispatcher.connect('featured players', '/featured/', controller=fplController, action='GET_FEATURED', conditions=dict(method=['POST']))
 
 
     conf = {

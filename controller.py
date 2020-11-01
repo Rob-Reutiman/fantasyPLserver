@@ -52,6 +52,59 @@ class Controller(object):
       response["body"] = "User not authenticated."
 
     return json.dumps(response)
+
+
+  def GET_FEATURED(self):
+    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
+    response = {"result": "success"}
+
+    if not isValidUser(data["username"], data["password"]):
+      response["result"] = "error"
+      response["body"] = "User not authenticated"
+      return json.dumps(response)
+
+    featured_fwd = {"computedRanking": 0}
+    featured_mid = {"computedRanking": 0}
+    featured_def = {"computedRanking": 0}
+    featured_gkp = {"computedRanking": 0}
+
+    for player in self.fplDB.players:
+      # if forward
+      if player["position"] == 4:
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
+        if computedRanking > featured_fwd["computedRanking"]:
+          featured_fwd = player
+          featured_fwd["computedRanking"] = computedRanking
+
+      # if midfielder
+      if player["position"] == 3:
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
+        if computedRanking > featured_mid["computedRanking"]:
+          featured_mid = player
+          featured_mid["computedRanking"] = computedRanking
+ 
+      # if defender
+      if player["position"] == 2:
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["clean_sheets"] * 3)
+        if computedRanking > featured_def["computedRanking"]:
+          featured_def = player
+          featured_def["computedRanking"] = computedRanking
+
+      # if goalie
+      if player["position"] == 1:
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["clean_sheets"] * 3)
+        if computedRanking > featured_fwd["computedRanking"]:
+          featured_gkp = player
+          featured_gkp["computedRanking"] = computedRanking
+
+    response["featured_fwd"] = featured_fwd
+    response["featured_mid"] = featured_mid
+    response["featured_def"] = featured_def
+    response["featured_gkp"] = featured_gkp
+
+    return json.dumps(response)
+
+    
   
   def GET_TEAMS(self): 
 

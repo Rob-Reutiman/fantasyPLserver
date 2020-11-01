@@ -32,7 +32,14 @@ class _fpl_database:
           "firstName": player["first_name"],
           "lastName": player["second_name"],
           "teamID" : player["team"],
-          "position": player["element_type"]
+          "position": player["element_type"],
+          "ict": player["ict_index"],
+          "ict_position_rank": player["ict_index_rank_type"],
+          "goals": player["goals_scored"],
+          "assists": player["assists"],
+          "ppg": player["points_per_game"],
+          "form": player["form"],
+          "clean_sheets": player["clean_sheets"]
         }
       )
     
@@ -50,6 +57,9 @@ class _fpl_database:
 
   def updateStats(self):
     ''' Update player, team, fixture data '''
+    pass
+
+  def getFeaturedPlayers(self):
     pass
 
 if __name__ == "__main__":
