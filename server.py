@@ -18,18 +18,21 @@ def start_service():
     dispatcher.connect('featured players', '/featured/', controller=fplController, action='GET_FEATURED', conditions=dict(method=['POST']))
 
     # CORS related options connections
-    dispatcher.connect('movie_key_options', '/movies/:movie_id', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('movie_key_options', '/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
     dispatcher.connect('movie_options', '/movies/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('reset_key_options', '/reset/:movie_id', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('reset_options', '/reset/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
-    dispatcher.connect('rating_options', '/ratings/:movie_id', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('reset_key_options', '/teams/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('reset_options', '/fixtures/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('rating_options', '/create/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('rating_options', '/auth/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+    dispatcher.connect('rating_options', '/featured/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
+
 
     conf = {
 
       'global': {
         'server.thread_pool': 5,
         'server.socket_host': '127.0.0.1',
-	      'server.socket_port': 3000,
+	      'server.socket_port': 3001,
 	    },
 
 	    '/': {
