@@ -39,7 +39,8 @@ class _fpl_database:
           "assists": player["assists"],
           "ppg": player["points_per_game"],
           "form": player["form"],
-          "clean_sheets": player["clean_sheets"]
+          "clean_sheets": player["clean_sheets"],
+          "code": player["code"]
         }
       )
     
