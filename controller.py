@@ -85,14 +85,14 @@ class Controller(object):
  
       # if defender
       if player["position"] == 2:
-        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["clean_sheets"] * 3)
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_def["computedRanking"]:
           featured_def = player
           featured_def["computedRanking"] = computedRanking
 
       # if goalie
       if player["position"] == 1:
-        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["clean_sheets"] * 3)
+        computedRanking = (player["ict_position_rank"] * 4) + (player["form"] * 2) + (player["ppg"] * 3)
         if computedRanking > featured_fwd["computedRanking"]:
           featured_gkp = player
           featured_gkp["computedRanking"] = computedRanking
