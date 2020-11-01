@@ -102,6 +102,9 @@ class Controller(object):
     response["featured_def"] = featured_def
     response["featured_gkp"] = featured_gkp
 
+    import pprint
+    pprint.pprint(response)
+
     return json.dumps(response)
 
     
