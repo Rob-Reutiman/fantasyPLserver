@@ -40,6 +40,7 @@ class _fpl_database:
           "ppg": player["points_per_game"],
           "form": player["form"],
           "clean_sheets": player["clean_sheets"],
+          "price": float(player["now_cost"]) / 10,
           "code": player["code"]
         }
       )
