@@ -41,7 +41,12 @@ class _fpl_database:
           "form": player["form"],
           "clean_sheets": player["clean_sheets"],
           "price": float(player["now_cost"]) / 10,
-          "code": player["code"]
+          "code": player["code"],
+          "minutes": player["minutes"],
+          "totalPoints": player["total_points"],
+          "saves": player["saves"],
+          "pp_min": round((player["total_points"] / player["minutes"]), 2) if player["minutes"] > 0 else 0,
+          "pp_mil": round((player["total_points"] / (float(player["now_cost"]) / 10)), 2) if player["minutes"] > 0 else 0,
         }
       )
     
