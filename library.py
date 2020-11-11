@@ -6,6 +6,7 @@ class _fpl_database:
     self.players = []
     self.teams = []
     self.fixtures = []
+    self.users = {}
 
   def loadTemplate(self):
     ''' Load basic player, team, fixture data '''

@@ -2,16 +2,16 @@ import cherrypy
 import json
 from library import _fpl_database
 
-def isValidUser(username, password):
+def isValidUser(users, username, password):
 
-  f = open("users.txt", "r")
+  u = users.get(username)
 
-  for line in f:
-    u, p = line.split()
-    if username == u and password == p:
-      return True
+  if u is None:
+    return "new"
+  if password == u["password"]:
+    return "valid"
 
-  return False
+  return "wrong"
 
 class Controller(object):
   
@@ -26,26 +26,38 @@ class Controller(object):
   # GET METHODS
 
   def AUTHENTICATE(self):
-    print("In authenticate")
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
 
-    if isValidUser(data["username"], data["password"]):
-      return json.dumps({"result": "success"})
-      
-    return json.dumps({"result": "error", "body": "Invalid user/password combo."})
+    result = isValidUser(self.fplDB.users, data["username"], data["password"])
 
+    print(result)
+
+    if result == "valid":
+      return json.dumps({"result": "success"})
+
+    if result == "wrong":
+      return json.dumps({"result": "error", "body": "Invalid user/password combo."})
+
+    self.fplDB.users[data["username"]] = {
+      "password": data["password"],
+      "team": {
+        "GKs": ["", ""],
+        "DEFs": ["", "", "", "", ""],
+        "MIDs": ["", "", "", "", ""],
+        "FWDs": ["", "", ""]
+      }
+    }
+
+    return json.dumps({"result": "success"})
+      
   def GET_ALL(self): 
 
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
-    if isValidUser(data["username"], data["password"]):
-      response["players"] = self.fplDB.players
-      response["teams"] = self.fplDB.teams
-      response["fixtures"] = self.fplDB.fixtures
-    else:
-      response["result"] = "error"
-      response["body"] = "User not authenticated."
+    response["players"] = self.fplDB.players
+    response["teams"] = self.fplDB.teams
+    response["fixtures"] = self.fplDB.fixtures
 
     return json.dumps(response)
 
@@ -53,36 +65,13 @@ class Controller(object):
 
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
-
-    if isValidUser(data["username"], data["password"]):
-      response["players"] = self.fplDB.players
-    else:
-      response["result"] = "error"
-      response["body"] = "User not authenticated."
+    response["players"] = self.fplDB.players
 
     return json.dumps(response)
-
-  # def GET_A(self): 
-
-  #   data = json.loads(cherrypy.request.body.read().decode('utf-8'))
-  #   response = {"result": "success"}
-
-  #   if isValidUser(data["username"], data["password"]):
-  #     response["players"] = self.fplDB.players
-  #   else:
-  #     response["result"] = "error"
-  #     response["body"] = "User not authenticated."
-
-  #   return json.dumps(response)
 
   def GET_FEATURED(self):
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
-
-    if not isValidUser(data["username"], data["password"]):
-      response["result"] = "error"
-      response["body"] = "User not authenticated"
-      return json.dumps(response)
 
     featured_fwd = {"computedRanking": 0}
     featured_mid = {"computedRanking": 0}
@@ -130,11 +119,7 @@ class Controller(object):
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
-    if isValidUser(data["username"], data["password"]):
-      response["teams"] = self.fplDB.teams
-    else:
-      response["result"] = "error"
-      response["body"] = "User not authenticated."
+    response["teams"] = self.fplDB.teams
 
     return json.dumps(response)
   
@@ -142,23 +127,6 @@ class Controller(object):
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
-    if isValidUser(data["username"], data["password"]):
-      response["fixtures"] = self.fplDB.fixtures
-    else:
-      response["result"] = "error"
-      response["body"] = "User not authenticated."
+    response["fixtures"] = self.fplDB.fixtures
 
     return json.dumps(response)
-
-  # POST METHODS
-
-  def CREATE_ACCOUNT(self):
-
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
-
-    f = open("users.txt", "a")
-    f.write(data["username"] + " " + data["password"] + "\n")
-
-    return json.dumps({"result": "success"})
-
-  
