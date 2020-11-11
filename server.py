@@ -20,12 +20,14 @@ def start_service():
 
     fplController = Controller(fplDB=fplDB)
 
-    dispatcher.connect('get all data', '/', controller=fplController, action = 'GET_ALL', conditions=dict(method=['POST']))
+    dispatcher.connect('get all data', '/', controller=fplController, action = 'GET_ALL', conditions=dict(method=['GET']))
     dispatcher.connect('get player data', '/auth/', controller=fplController, action = 'AUTHENTICATE', conditions=dict(method=['POST']))
-    dispatcher.connect('get player data', '/players/', controller=fplController, action = 'GET_PLAYERS', conditions=dict(method=['POST']))
-    dispatcher.connect('get team data', '/teams/', controller=fplController, action = 'GET_TEAMS', conditions=dict(method=['POST']))
-    dispatcher.connect('get fixture data', '/fixtures/', controller=fplController, action = 'GET_FIXTURES', conditions=dict(method=['POST']))
-    dispatcher.connect('featured players', '/featured/', controller=fplController, action='GET_FEATURED', conditions=dict(method=['POST']))
+    dispatcher.connect('get player data', '/players/', controller=fplController, action = 'GET_PLAYERS', conditions=dict(method=['GET']))
+    dispatcher.connect('get team data', '/teams/', controller=fplController, action = 'GET_TEAMS', conditions=dict(method=['GET']))
+    dispatcher.connect('get fixture data', '/fixtures/', controller=fplController, action = 'GET_FIXTURES', conditions=dict(method=['GET']))
+    dispatcher.connect('featured players', '/featured/', controller=fplController, action='GET_FEATURED', conditions=dict(method=['GET']))
+    dispatcher.connect('users team', '/myTeam/', controller=fplController, action='GET_USER_TEAM', conditions=dict(method=['POST']))
+    dispatcher.connect('users team', '/updateTeam/', controller=fplController, action='UPDATE_USER_TEAM', conditions=dict(method=['POST']))
 
     # CORS related options connections
     dispatcher.connect('all', '/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
@@ -34,7 +36,7 @@ def start_service():
     dispatcher.connect('teams', '/teams/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
     dispatcher.connect('fixture', '/fixtures/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
     dispatcher.connect('featured', '/featured/', controller=optionsController, action = 'OPTIONS', conditions=dict(method=['OPTIONS']))
-
+    dispatcher.connect('users team', '/myTeam/', controller=fplController, action='OPTIONS', conditions=dict(method=['OPTIONS']))
 
     conf = {
 

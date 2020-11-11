@@ -30,8 +30,6 @@ class Controller(object):
 
     result = isValidUser(self.fplDB.users, data["username"], data["password"])
 
-    print(result)
-
     if result == "valid":
       return json.dumps({"result": "success"})
 
@@ -52,7 +50,6 @@ class Controller(object):
       
   def GET_ALL(self): 
 
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
     response["players"] = self.fplDB.players
@@ -63,14 +60,12 @@ class Controller(object):
 
   def GET_PLAYERS(self): 
 
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
     response["players"] = self.fplDB.players
 
     return json.dumps(response)
 
   def GET_FEATURED(self):
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
     featured_fwd = {"computedRanking": 0}
@@ -116,7 +111,6 @@ class Controller(object):
 
   def GET_TEAMS(self): 
 
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
     response["teams"] = self.fplDB.teams
@@ -124,9 +118,30 @@ class Controller(object):
     return json.dumps(response)
   
   def GET_FIXTURES(self): 
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
 
     response["fixtures"] = self.fplDB.fixtures
+
+    return json.dumps(response)
+
+  def GET_USER_TEAM(self): 
+    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
+
+    username = data["username"]
+    u = self.fplDB.users.get(username)
+
+    response = {"result": "success"}
+    response["team"] = u["team"]
+
+    return json.dumps(response)
+
+  def UPDATE_USER_TEAM(self): 
+    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
+
+    response = {"result": "success"}
+    username = data["username"]
+    self.fplDB.users[username]["team"] = data["team"]
+
+    print(self.fplDB.users[username])
 
     return json.dumps(response)
