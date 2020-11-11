@@ -25,6 +25,15 @@ class Controller(object):
 
   # GET METHODS
 
+  def AUTHENTICATE(self):
+    print("In authenticate")
+    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
+
+    if isValidUser(data["username"], data["password"]):
+      return json.dumps({"result": "success"})
+      
+    return json.dumps({"result": "error", "body": "Invalid user/password combo."})
+
   def GET_ALL(self): 
 
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
@@ -53,6 +62,19 @@ class Controller(object):
 
     return json.dumps(response)
 
+  # def GET_A(self): 
+
+  #   data = json.loads(cherrypy.request.body.read().decode('utf-8'))
+  #   response = {"result": "success"}
+
+  #   if isValidUser(data["username"], data["password"]):
+  #     response["players"] = self.fplDB.players
+  #   else:
+  #     response["result"] = "error"
+  #     response["body"] = "User not authenticated."
+
+  #   return json.dumps(response)
+
   def GET_FEATURED(self):
     data = json.loads(cherrypy.request.body.read().decode('utf-8'))
     response = {"result": "success"}
@@ -68,12 +90,10 @@ class Controller(object):
     featured_gkp = {"computedRanking": 0}
 
     for player in self.fplDB.players:
-      print(player)
       # if forward
       if int(player["position"]) == 4:
         computedRanking = (float(player["form"]) * 2) + (float(player["ppg"]) * 3) / (int(player["ict_position_rank"]))
         if computedRanking > featured_fwd["computedRanking"]:
-          print(f"updating fwd, computed ranking: {computedRanking}")
           featured_fwd = player
           featured_fwd["computedRanking"] = computedRanking
 
@@ -81,7 +101,6 @@ class Controller(object):
       if int(player["position"]) == 3:
         computedRanking = (float(player["form"]) * 2) + (float(player["ppg"]) * 3) / (int(player["ict_position_rank"]))
         if computedRanking > featured_mid["computedRanking"]:
-          print(f"updating mid, computed ranking: {computedRanking}")
           featured_mid = player
           featured_mid["computedRanking"] = computedRanking
  
@@ -89,7 +108,6 @@ class Controller(object):
       if int(player["position"]) == 2:
         computedRanking = (float(player["form"]) * 2) + (float(player["ppg"]) * 3) / (int(player["ict_position_rank"]))
         if computedRanking > featured_def["computedRanking"]:
-          print(f"updating fwd, computed ranking: {computedRanking}")
           featured_def = player
           featured_def["computedRanking"] = computedRanking
 
@@ -97,7 +115,6 @@ class Controller(object):
       if int(player["position"]) == 1:
         computedRanking = (float(player["form"]) * 2) + (float(player["ppg"]) * 3) / (int(player["ict_position_rank"]))
         if computedRanking > featured_fwd["computedRanking"]:
-          print(f"updating fwd, computed ranking: {computedRanking}")
           featured_gkp = player
           featured_gkp["computedRanking"] = computedRanking
 
@@ -105,9 +122,6 @@ class Controller(object):
     response["featured_mid"] = featured_mid
     response["featured_def"] = featured_def
     response["featured_gkp"] = featured_gkp
-
-    import pprint
-    pprint.pprint(response)
 
     return json.dumps(response)
 
@@ -147,11 +161,4 @@ class Controller(object):
 
     return json.dumps({"result": "success"})
 
-  def AUTHENTICATE(self):
-
-    data = json.loads(cherrypy.request.body.read().decode('utf-8'))
-
-    if isValidUser(data["username"], data["password"]):
-      return json.dumps({"result": "success"})
-      
-    return json.dumps({"result": "error", "body": "Invalid user/password combo."})
+  
